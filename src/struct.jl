@@ -1,5 +1,5 @@
 using LinearAlgebraicRepresentation
-Lar = LinearAlgebraicRepresentation
+Lar = CuboidGrids
 
 """
 	t(args::Array{Number,1}...)::Matrix

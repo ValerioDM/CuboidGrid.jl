@@ -1,4 +1,4 @@
-Lar = LinearAlgebraicRepresentation
+Lar = CuboidGrids
 using DataStructures
 
 
