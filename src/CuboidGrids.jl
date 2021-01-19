@@ -1,6 +1,7 @@
 module CuboidGrids
 
-    using LinearAlgebraicRepresentation
+	using LinearAlgebraicRepresentation
+	using Common
 
 	using NearestNeighbors
 	using DataStructures

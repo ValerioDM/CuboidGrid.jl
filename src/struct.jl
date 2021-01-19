@@ -62,7 +62,7 @@ julia> Lar.s(2.,3.,4.)		# 3D scaling
 function s(args...)
 	d = length(args)
 	mat = Matrix{Float64}(LinearAlgebra.I, d+1, d+1)
-	for k in range(1, length=d)
+	Threads.@threads for k in range(1, length=d)
 		mat[k,k]=args[k]
 	end
 	return mat
@@ -112,7 +112,7 @@ function r(args...)
         mat[2,1] = SIN;    mat[2,2] = COS;
     end
 
-     if n == 3 # rotation in 3D
+    if n == 3 # rotation in 3D
         mat = Matrix{Float64}(LinearAlgebra.I, 4, 4)
         angle = norm(args);
         if norm(args) != 0.0

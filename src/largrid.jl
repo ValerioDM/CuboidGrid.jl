@@ -1,5 +1,6 @@
 Lar = CuboidGrids
 using DataStructures
+using Distributed
 
 
 """
@@ -401,14 +402,14 @@ julia> Lar.larGridSkeleton([1,1,1])(3)
 """
 function larGridSkeleton(shape)
     n = length(shape)
-    function larGridSkeleton0( d::Int )::Cells
+    Threads.@threads function larGridSkeleton0( d::Int )::Cells
 
     	@assert d<=n
 
         components = filterByOrder(n)[d .+ 1]
         apply(fun,a) = fun(a)
 		componentCellLists = [ [map(f,x)  for (f,x) in  zip( [larGrid(dim)
-			for dim in shape], convert(Array{Int64,1},component) ) ]
+        for dim in shape], convert(Array{Int64,1},component) ) ]
 				for component in components ]
         colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
         out = [ larCellProd(map(colList,cellLists)) for cellLists in componentCellLists ]

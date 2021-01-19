@@ -1,6 +1,8 @@
-Lar = LinearAlgebraicRepresentation
-using DataStructures
+""" Lar = LinearAlgebraicRepresentation """
 
+
+
+"""
 function grid(sequence...)
 	sequence = collect(sequence)
 	cursor,points,hulls= (0,[[0.]],[])
@@ -16,3 +18,4 @@ function grid(sequence...)
 	return V,EV
 end
 const q = grid
+"""
