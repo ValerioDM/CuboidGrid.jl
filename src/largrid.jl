@@ -402,7 +402,7 @@ julia> Lar.larGridSkeleton([1,1,1])(3)
 """
 function larGridSkeleton(shape)
     n = length(shape)
-    Threads.@threads function larGridSkeleton0( d::Int )::Cells
+    function larGridSkeleton0( d::Int )::Cells
 
     	@assert d<=n
 

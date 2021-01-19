@@ -1,21 +1,12 @@
-""" Lar = LinearAlgebraicRepresentation """
 
+using CuboidGrids; Lar = CuboidGrids
 
+mod1D = Lar.grid(repeat([.1,-.1],outer=5)...)
 
-"""
-function grid(sequence...)
-	sequence = collect(sequence)
-	cursor,points,hulls= (0,[[0.]],[])
-	for value in sequence
-		points = append!(points, [[cursor + abs(value)]])
-		if value>=0
-			append!(hulls,[[length(points)-1,length(points)]])
-		end
-	  cursor += abs(value)
-	end
-	V = convert(Lar.Points, [p[1] for p in points]')
-	EV = convert(Lar.Cells,hulls)
-	return V,EV
-end
-const q = grid
-"""
+using ViewerGL; GL = ViewerGL
+
+GL.VIEW([ GL.GLFrame2, GL.GLGrid(mod1D..., GL.COLORS[1],1) ])
+
+mod3D = Lar.INSR(Lar.larModelProduct)([mod1D,mod1D,mod1D])
+
+GL.VIEW([ GL.GLFrame2, GL.GLPol(mod3D..., GL.COLORS[1],1) ])

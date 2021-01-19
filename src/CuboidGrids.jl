@@ -10,7 +10,6 @@ module CuboidGrids
 	using SparseArrays
 	using LinearAlgebra
 	using Distributed
-	Lar = LinearAlgebraicRepresentation
 
 	"""
 		Points = Array{Number,2}
@@ -98,25 +97,7 @@ module CuboidGrids
 	"""
 	const LAR = Union{ Tuple{Points, Cells},Tuple{Points, Cells, Cells} }
 
-
-   include("./interface.jl")
-   include("./utilities.jl")
-   include("./simplexn.jl")
    include("./largrid.jl")
-   include("./mapper.jl")
    include("./struct.jl")
-   include("./integr.jl")
-   include("./refactoring.jl")
-   include("./graphalgorithms.jl")
-   include("./fragface.jl")
-   include("./svg2lar.jl")
-   include("./bool3d.jl")
-   include("./bool2d.jl")
-   include("./fenvs.jl")
 
-   include("./arrangement/arrangement.jl")
-   #planar_arrangement_1 = Arrangement.planar_arrangement_1
-   #planar_arrangement_2 = Arrangement.planar_arrangement_2
-   planar_arrangement = Arrangement.planar_arrangement
-   spatial_arrangement = Arrangement.spatial_arrangement
 end
