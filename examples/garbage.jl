@@ -1,6 +1,6 @@
 using DataStructures
 using Distributed
-using LinearAlgebraicRepresentation; Lar = LinearAlgebraicRepresentation
+using CuboidGrids; Lar = CuboidGrids
 
 #=
 using CuboidGrids; Lar = CuboidGrids
@@ -17,6 +17,20 @@ GL.VIEW([ GL.GLFrame2, GL.GLPol(mod3D..., GL.COLORS[1],1) ])
 
 map(x->x*2, [1,2,3])
 reduce(*, [2;3;4])
+
+#=il problema svolto con mapreduce
+    mapreduce(x-> rem(33333331, x), max, 1:16666665)    => 11111109
+  diventa:  
+@parallel max for x in 1:16666665
+    rem(33333331, x)                                    => 11111109
+end     
+
+io devo fare:
+@parallel <risultato ottenuto?> for x in <collezizone>
+    <funzione da applicare>  (si fa su funzioni che hanno bisogno di un solo parametro?)
+end
+=#                    
+           
 
 function random3cells(shape,npoints)
 	pointcloud = rand(3,npoints).*shape
@@ -67,3 +81,15 @@ pointcloud,V,CV = random3cells([1,1,1],10)
 0.0 0.0 1.0 1.0 0.0 0.0 1.0 1.0;
 0.0 1.0 0.0 1.0 0.0 1.0 0.0 1.0
 =#
+
+
+V,CV = Lar.cuboidGrid([5,10,10])
+#pointcloud,V,CV = random3cells([40,20,10],4_000)
+
+VV = [[v] for v=1:size(V,2)]
+
+println("== stampa di VV ======================================")
+println(VV)
+size(V,2)
+
+#Lar.Matrix(Lar.VEF(V,CV),CV)

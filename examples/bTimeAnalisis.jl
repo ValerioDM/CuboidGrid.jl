@@ -14,6 +14,11 @@ using Distributed
 CuboidGrids: "C:/Users/UNIEURO/.julia/dev/CuboidGrids"
 
 println("=======================================================================")
+println("@btime for data preparation before visualization: ")
+PAR = @btime Lar.Matrix(Lar.VEF(V,CV),CV)
+
+
+println("=======================================================================")
 println("@btime for largrid: ")
 LARcuboidGrids = @btime LinearAlgebraicRepresentation.largrid($LARcuboidGrids)
 

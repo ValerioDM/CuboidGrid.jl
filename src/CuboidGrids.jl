@@ -108,6 +108,68 @@ module CuboidGrids
 
 
 
+	
+
+	#funzione presa da mapper.jl per favorire l'esecuzione
+	"""
+	approxVal(PRECISION)(value)
+
+	Transform the float `value` to get a `PRECISION` number of significant digits.
+	"""
+	function approxVal(PRECISION)
+	function approxVal0(value)
+		out = round(value, digits=PRECISION)
+		if out == -0.0
+			out = 0.0
+		end
+		return out
+	end
+	return approxVal0
+	end
+
+
+
+
+
+	#Funzioni prese da example_vooxellization per snellire i codici di esecuzione del package o
+	function CV2FV( v::Array{Int64} )
+		faces = [
+			[v[1], v[2], v[3], v[4]], [v[5], v[6], v[7], v[8]],
+			[v[1], v[2], v[5], v[6]],	[v[3], v[4], v[7], v[8]],
+			[v[1], v[3], v[5], v[7]], [v[2], v[4], v[6], v[8]]]
+	end
+	
+	function CV2EV( v::Array{Int64} )
+		edges = [
+			[v[1], v[2]], [v[3], v[4]], [v[5], v[6]], [v[7], v[8]], [v[1], v[3]], [v[2], v[4]],
+			[v[5], v[7]], [v[6], v[8]], [v[1], v[5]], [v[2], v[6]], [v[3], v[7]], [v[4], v[8]]]
+	end
+	
+	function K( CV )	#costruisce e ritorna una matrice sparsa a partire dalla collezione passata(matrice dei vertici, degli edges, delle facce, etc)
+		I = vcat( [ [k for h in CV[k]] for k=1:length(CV) ]...) #righe
+		J = vcat(CV...)											#colonne
+		Vals = [1 for k=1:length(I)]							#valori della matrice
+		return sparse(I,J,Vals)									#costruzione della matrice sparsa
+	end
+
+	function VEF( V::Array{Float64,2}, CV::Array{Int64})
+		VV = [[v] for v=1:size(V,2)]
+		FV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2FV,CV))))) #verts faces
+		EV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2EV,CV))))) #verts edges
+		return VV, FV, EV
+	end
+
+
+#Cotruzine delle varie matrici tramite la funzione K
+	function Mats( VV, FV, EV, CV)
+		M_0 = K(VV)
+		M_1 = K(EV)
+		M_2 = K(FV)
+		M_3 = K(CV)
+		return M_0, M_1, M_2, M_3
+	end
+
+
    include("./largrid.jl")
    include("./struct.jl")
 
