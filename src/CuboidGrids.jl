@@ -152,7 +152,7 @@ module CuboidGrids
 		return sparse(I,J,Vals)									#costruzione della matrice sparsa
 	end
 
-	function VEF( V::Array{Float64,2}, CV::Array{Int64})
+	Threads.@spawn function VEF( V::Array{Float64,2}, CV::Array{Int64})
 		VV = [[v] for v=1:size(V,2)]
 		FV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2FV,CV))))) #verts faces
 		EV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2EV,CV))))) #verts edges
@@ -161,7 +161,7 @@ module CuboidGrids
 
 
 #Cotruzine delle varie matrici tramite la funzione K
-	function Mats( VV, FV, EV, CV)
+	Threads.@spawn function Mats( VV, FV, EV, CV)
 		M_0 = K(VV)
 		M_1 = K(EV)
 		M_2 = K(FV)

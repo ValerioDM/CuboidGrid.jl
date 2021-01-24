@@ -408,11 +408,11 @@ function larGridSkeleton(shape)
 
         components = filterByOrder(n)[d .+ 1]
         apply(fun,a) = fun(a)
-		componentCellLists = [ [map(f,x)  for (f,x) in  zip( [larGrid(dim) #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		componentCellLists = [ [pmap(f,x)  for (f,x) in  zip( [larGrid(dim) #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         for dim in shape], convert(Array{Int64,1},component) ) ]
 				for component in components ]
         colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
-        out = [ larCellProd(map(colList,cellLists)) for cellLists in componentCellLists ] #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        out = [ larCellProd(pmap(colList,cellLists)) for cellLists in componentCellLists ] #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         return vcat(out...)
     end
     return larGridSkeleton0
@@ -443,7 +443,8 @@ julia> larImageVerts([1,1,1])
 """
 function larImageVerts( shape::Array{Int,1} )::Array{Int64,2} #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
    vertexDomain(n) = hcat([k for k in 0:n-1]...)                
-   vertLists = [vertexDomain(k+1) for k in shape]
+   #vertLists = [vertexDomain(k+1) for k in shape]
+   vertList = [pmap(vertexDomain, shape)+1]
    vertGrid = larVertProd(vertLists)
    return vertGrid
 end
@@ -462,7 +463,8 @@ function cuboidGrid( shape, filled=false )
       cells = gridMap(length(shape))
    else
       skeletonIds = 0:length(shape)
-      cells = [ gridMap(id) for id in skeletonIds ]    #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      #cells = [ gridMap(id) for id in skeletonIds ]    #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      cells = [ pmap(gridMap, skeletonIds )] 
    end
    return convert(Array{Float64,2},vertGrid), cells
 end

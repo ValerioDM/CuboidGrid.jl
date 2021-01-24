@@ -1,4 +1,5 @@
 using LinearAlgebraicRepresentation
+using CuboidGrids
 using Profile
 using BenchmarkTools
 
@@ -10,33 +11,20 @@ using SparseArrays
 using LinearAlgebra
 using Distributed
 
+Lar = CuboidGrids
+OlLar = LinearAlgebraicRepresentation
 #source folder
-CuboidGrids: "C:/Users/UNIEURO/.julia/dev/CuboidGrids"
+#cuboidGrids: "C:/Users/UNIEURO/.julia/dev/CuboidGrids"
 
 println("=======================================================================")
-println("@btime for data preparation before visualization: ")
-PAR = @btime Lar.Matrix(Lar.VEF(V,CV),CV)
-
-
-println("=======================================================================")
-println("@btime for largrid: ")
-LARcuboidGrids = @btime LinearAlgebraicRepresentation.largrid($LARcuboidGrids)
+println("@btime for data preparation before visualization(with pmap maethods): ")
+    PAR1,PAR2 = @btime Lar.cuboidGrid([10,20,10])
 
 
 
 println("=======================================================================")
-println("@btime for CuboidGrids: ")
-LARcuboidGrids = @btime LinearAlgebraicRepresentation.largrid($LARcuboidGrids)
+println("@btime for data preparation before visualization(with map maethods): ")
+PAR1,PAR2 = @btime OlLar.cuboidGrid([10,20,10])
 
 
 
-Gl.VIEW(
-    [
-        Visualization.points_color_from_rgb(PPC.coordinates, PPC.rgbs)
-    ]
-)
-Gl.VIEW(
-    [
-        Visualization.points_color_from_rgb(FMPC.coordinates, FMPC.rgbs)
-    ]
-)
