@@ -342,6 +342,8 @@ function larCellProd(cellLists::Array{Cells,1})::Cells
    convertIt = index2addr([ (length(cellLists[k][1]) > 1) ? shape .+ 1 : shape
       for (k,shape) in enumerate(shapes) ])
    [vcat(map(convertIt, map(collect,jointCells[j]))...) for j in 1:length(jointCells)]
+   #[vcat(pmap(convertIt, pmap(collect,jointCells[j]))...) for j in 1:length(jointCells)] la parlallelizzazione appesantisce l'esecuzione(?)
+
 end
 
 
@@ -441,10 +443,10 @@ julia> larImageVerts([1,1,1])
  0  1  0  1  0  1  0  1
 ```
 """
-function larImageVerts( shape::Array{Int,1} )::Array{Int64,2} #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+function larImageVerts( shape::Array{Int,1} )::Array{Int64,2}
    vertexDomain(n) = hcat([k for k in 0:n-1]...)                
-   #vertLists = [vertexDomain(k+1) for k in shape]
-   vertList = [pmap(vertexDomain, shape)+1]
+   vertLists = [vertexDomain(k+1) for k in shape]
+   #vertList = [pmap(vertexDomain, shape)+1] qui non si puo mettere pmap
    vertGrid = larVertProd(vertLists)
    return vertGrid
 end
