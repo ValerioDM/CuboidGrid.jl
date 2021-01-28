@@ -410,16 +410,32 @@ function larGridSkeleton(shape)
 
         components = filterByOrder(n)[d .+ 1]
         apply(fun,a) = fun(a)
-		componentCellLists = [ [map(f,x)  for (f,x) in  zip( [larGrid(dim) 
+		componentCellLists = [ [pmap(f,x)  for (f,x) in  zip( [larGrid(dim) 
         for dim in shape], convert(Array{Int64,1},component) ) ]
 				for component in components ]
         colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
-        out = [ larCellProd(map(colList,cellLists)) for cellLists in componentCellLists ] 
+        out = [ larCellProd(pmap(colList,cellLists)) for cellLists in componentCellLists ] 
         return vcat(out...)
     end
     return larGridSkeleton0
 end
 
+
+function larGridSkeletonT(shape)
+    n = length(shape)
+    l = Threads.Lock()
+    Threads.@spawn function larGridSkeleton0T( d::Int )::Cells
+    	@assert d<=n
+        components = filterByOrder(n)[d .+ 1]
+		componentCellLists = [ [pmap(f,x)  for (f,x) in  zip( [larGrid(dim) 
+        for dim in shape], convert(Array{Int64,1},component) ) ]
+				for component in components ]
+        colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
+        out = [ larCellProd(pmap(colList,cellLists)) for cellLists in componentCellLists ] 
+        return vcat(out...)
+    end
+    return larGridSkeleton0T
+end
 
 """
 	larImageVerts(shape::Array{Int,1})::Array{Int64,2}
@@ -451,6 +467,22 @@ function larImageVerts( shape::Array{Int,1} )::Array{Int64,2}
    return vertGrid
 end
 
+#°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+function vertexDomainAux(n::Int)::Array{Array{Float64, 2}, 1}
+    ret = Array
+    for k in n-1
+        ret = hcat(k...)
+        end
+    return ret
+    end
+
+function larImageVertsT( shape::Array{Int,1} )::Array{Int64,2}
+    vertLists = [vertexDomainAux(k+1) for k in shape]
+    vertGrid = larVertProd(vertLists)
+    return vertGrid
+ end
+
 
 """
 	cuboidGrid( shape, filled=false )::Union( Cells, Array{Cells,1} )
@@ -470,6 +502,16 @@ function cuboidGrid( shape, filled=false )
    end
    return convert(Array{Float64,2},vertGrid), cells
 end
+
+function cuboidGridT( shape, filled=false )
+    vertGrid = larImageVertsT(shape)
+    gridMap = larGridSkeletonT(shape)
+
+    #sul ramo di else non ci arrivo mai oggettivo fattuale
+    cells = gridMap(length(shape))
+
+    return convert(Array{Float64,2},vertGrid), cells
+ end
 
 
 """
