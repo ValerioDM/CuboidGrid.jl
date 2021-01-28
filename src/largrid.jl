@@ -410,11 +410,11 @@ function larGridSkeleton(shape)
 
         components = filterByOrder(n)[d .+ 1]
         apply(fun,a) = fun(a)
-		componentCellLists = [ [pmap(f,x)  for (f,x) in  zip( [larGrid(dim) #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		componentCellLists = [ [map(f,x)  for (f,x) in  zip( [larGrid(dim) 
         for dim in shape], convert(Array{Int64,1},component) ) ]
 				for component in components ]
         colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
-        out = [ larCellProd(pmap(colList,cellLists)) for cellLists in componentCellLists ] #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        out = [ larCellProd(map(colList,cellLists)) for cellLists in componentCellLists ] 
         return vcat(out...)
     end
     return larGridSkeleton0
@@ -465,7 +465,7 @@ function cuboidGrid( shape, filled=false )
       cells = gridMap(length(shape))
    else
       skeletonIds = 0:length(shape)
-      #cells = [ gridMap(id) for id in skeletonIds ]    #AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      #cells = [ gridMap(id) for id in skeletonIds ] 
       cells = [ pmap(gridMap, skeletonIds )] 
    end
    return convert(Array{Float64,2},vertGrid), cells

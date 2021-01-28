@@ -17,13 +17,25 @@ OlLar = LinearAlgebraicRepresentation
 println("=======================================================================")
 println("@btime for data preparation before visualization(with pmap maethods): ")
     PAR1,PAR2 = @btime Lar.cuboidGrid([10,20,10])
-    
-
-
+println("-----------------------------------------------------------------------")
+println("@btime for data preparation before visualization(with map maethods): ")
+    PAR1,PAR2 = @btime OlLar.cuboidGrid([10,20,10])
 
 println("=======================================================================")
-println("@btime for data preparation before visualization(with map maethods): ")
-PAR1,PAR2 = @btime OlLar.cuboidGrid([10,20,10])
+println("...Adding pmap does not improve the performance in cuboidGrid")
+println("To understand why, let's see the single sub functions with the same input")
 
+println("=======================================================================")
+println("@btime for larImageVerts(with pmap maethods): ")
+    PAR1 = @btime Lar.larImageVerts([10,20,10])
+println("-----------------------------------------------------------------------")
+println("@btime for larImageVerts(with map maethods): ")
+    PAR1 = @btime OlLar.larImageVerts([10,20,10])
 
+println("=======================================================================")
+println("@btime for larGridSkeleton(with map maethods): ")
+    PAR1 = @btime Lar.larGridSkeleton([10,20,10])
+println("-----------------------------------------------------------------------")
+println("@btime for larGridSkeleton(with map maethods): ")
+    PAR1 = @btime OlLar.larGridSkeleton([10,20,10])
 
