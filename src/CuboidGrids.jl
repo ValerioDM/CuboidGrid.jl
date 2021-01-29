@@ -11,6 +11,9 @@ module CuboidGrids
 	using LinearAlgebra
 	using Distributed
 
+	using ViewerGL
+	GL = ViewerGL
+
 	"""
 		Points = Array{Number,2}
 
@@ -160,7 +163,7 @@ module CuboidGrids
 	end
 
 
-#Cotruzine delle varie matrici tramite la funzione K
+#Cotruzine delle varie matrici tramite la funzione K per la visualizzazione delle facce interne/esterne
 	Threads.@spawn function Mats( VV, FV, EV, CV)
 		M_0 = K(VV)
 		M_1 = K(EV)
@@ -169,6 +172,13 @@ module CuboidGrids
 		return M_0, M_1, M_2, M_3
 	end
 
+	function executeShowVoxels(shape )
+		V, CV = Lar.cuboidGrid(shape)
+		#GL.VIEW([GL.GLLar2gl(V,CV)])
+	end
+		
+	function callExample()
+	end
 
    include("./largrid.jl")
    include("./struct.jl")

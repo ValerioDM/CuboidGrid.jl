@@ -15,9 +15,17 @@ Lar = CuboidGrids
 OlLar = LinearAlgebraicRepresentation
 
 println("=======================================================================")
+println("@btime for data visualization: ")
+    @btime Lar.executeShowVoxels([10,20,10])
+println("-----------------------------------------------------------------------")
+println("@btime for data visualization(with map maethods): ")
+    @btime Lar.callExample()
+
+
+println("=======================================================================")
 println("@btime for data preparation before visualization(with pmap maethods): ")
     PAR1,PAR2 = @btime Lar.cuboidGrid([10,20,10])
-    PAR1,PAR2 = @btime Lar.cuboidGridT([10,20,10])
+    #PAR1,PAR2 = @btime Lar.cuboidGridT([10,20,10])
 println("-----------------------------------------------------------------------")
 println("@btime for data preparation before visualization(with map maethods): ")
     PAR1,PAR2 = @btime OlLar.cuboidGrid([10,20,10])
@@ -37,7 +45,7 @@ println("@btime for larImageVerts(with map maethods): ")
 println("=======================================================================")
 println("@btime for larGridSkeleton(with map maethods): ")
     PAR1 = @btime Lar.larGridSkeleton([10,20,10])
-    PAR1 = @btime Lar.larGridSkeletonT([10,20,10])
+    #PAR1 = @btime Lar.larGridSkeletonT([10,20,10])
 println("-----------------------------------------------------------------------")
 println("@btime for larGridSkeleton(with map maethods): ")
     PAR1 = @btime OlLar.larGridSkeleton([10,20,10])
