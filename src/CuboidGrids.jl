@@ -135,6 +135,10 @@ module CuboidGrids
 
 
 	#Funzioni prese da example_vooxellization per snellire i codici di esecuzione del package o
+	"""
+	 CV2FV( Array{Int64} ) Array{Int64}
+	 Return the vertices cells array tranformed to a vertices faces array
+	"""
 	function CV2FV( v::Array{Int64} )
 		faces = [
 			[v[1], v[2], v[3], v[4]], [v[5], v[6], v[7], v[8]],
@@ -142,12 +146,20 @@ module CuboidGrids
 			[v[1], v[3], v[5], v[7]], [v[2], v[4], v[6], v[8]]]
 	end
 	
+	"""
+	CV2EV( Array{Int64} ) Array{Int64}
+	Return the vertices cells array tranformed to an vertices edges array
+	"""
 	function CV2EV( v::Array{Int64} )
 		edges = [
 			[v[1], v[2]], [v[3], v[4]], [v[5], v[6]], [v[7], v[8]], [v[1], v[3]], [v[2], v[4]],
 			[v[5], v[7]], [v[6], v[8]], [v[1], v[5]], [v[2], v[6]], [v[3], v[7]], [v[4], v[8]]]
 	end
 	
+	"""
+	K( Array{Int64} )
+	Return the sparse matrix built with the passed array
+	"""
 	function K( CV )	#costruisce e ritorna una matrice sparsa a partire dalla collezione passata(matrice dei vertici, degli edges, delle facce, etc)
 		I = vcat( [ [k for h in CV[k]] for k=1:length(CV) ]...) #righe
 		J = vcat(CV...)											#colonne
@@ -155,6 +167,10 @@ module CuboidGrids
 		return sparse(I,J,Vals)									#costruzione della matrice sparsa
 	end
 
+	"""
+	VEF( Array{Float64,2}, Array{Int64})
+	Given the vertices array and the vertex cells array, return the vertex faces and edges array
+	"""
 	Threads.@spawn function VEF( V::Array{Float64,2}, CV::Array{Int64})
 		VV = [[v] for v=1:size(V,2)]
 		FV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2FV,CV))))) #verts faces
@@ -163,6 +179,9 @@ module CuboidGrids
 	end
 
 
+	"""
+	Thanks to the K function, build and return the sparse matrix for vertex, edges, faces and cells array
+	"""
 #Cotruzine delle varie matrici tramite la funzione K per la visualizzazione delle facce interne/esterne
 	Threads.@spawn function Mats( VV, FV, EV, CV)
 		M_0 = K(VV)
@@ -172,6 +191,7 @@ module CuboidGrids
 		return M_0, M_1, M_2, M_3
 	end
 
+	#used for testing
 	function executeShowVoxels(shape )
 		V, CV = Lar.cuboidGrid(shape)
 		#GL.VIEW([GL.GLLar2gl(V,CV)])

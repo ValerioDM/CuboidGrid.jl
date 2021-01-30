@@ -15,7 +15,7 @@ Lar = CuboidGrids
 OlLar = LinearAlgebraicRepresentation
 
 println("=======================================================================")
-println("@btime for data visualization: ")
+println("@btime for general execution of the code: ")
     @btime Lar.executeShowVoxels([10,20,10])
 
 

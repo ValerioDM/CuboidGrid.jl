@@ -38,14 +38,14 @@ end
 function serial_add()
 	s=0.0
 	for i = 1:100000
-		s=s+randn()
+		s=s+Random.randn()
 	end
 	return s
 end
 
 function parallel_add()
 	return @distributed (+) for i=1:100000
-		randn()
+	Random.randn()
 	end
 end
 
