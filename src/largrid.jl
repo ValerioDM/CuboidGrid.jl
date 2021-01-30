@@ -410,7 +410,7 @@ function larGridSkeleton(shape)
 
         components = filterByOrder(n)[d .+ 1]
         apply(fun,a) = fun(a)
-		componentCellLists = [ [pmap(f,x)  for (f,x) in  zip( [larGrid(dim) 
+		componentCellLists = [ [pmap(f,x) for (f,x) in zip( [larGrid(dim) 
         for dim in shape], convert(Array{Int64,1},component) ) ]
 				for component in components ]
         colList(arr) = [arr[:,k]  for k in 1:size(arr,2)]
@@ -491,14 +491,15 @@ Multi-dimensional generator function.
 Generate either a solid *``d``-grid* of unit *``d``-cuboids* in ``d``-dimensional space, or the array of ``p``-skeletons (``0 <=p<= d``), depending on the Boolean variable `filled`. ``0``-cuboids are points, ``1``-cuboids are segments, , ``2``-cuboids are squares,  ``3``-cuboids are cubes, etc. The `shape=[a,b,c]` value determines the number ``a x b x c`` of ``d``-cells. Notice that `d = length(shape)`
 """
 function cuboidGrid( shape, filled=false )
-   vertGrid = larImageVerts(shape)
+   vertGrid =  larImageVerts(shape)
    gridMap = larGridSkeleton(shape)
+   #fetch(vertGrid)
    if ! filled
       cells = gridMap(length(shape))
    else
       skeletonIds = 0:length(shape)
       #cells = [ gridMap(id) for id in skeletonIds ] 
-      cells = [ pmap(gridMap, skeletonIds )] 
+      cells = [ pmap(gridMap, skeletonIds )]
    end
    return convert(Array{Float64,2},vertGrid), cells
 end

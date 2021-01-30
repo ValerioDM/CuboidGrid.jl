@@ -17,9 +17,7 @@ OlLar = LinearAlgebraicRepresentation
 println("=======================================================================")
 println("@btime for data visualization: ")
     @btime Lar.executeShowVoxels([10,20,10])
-println("-----------------------------------------------------------------------")
-println("@btime for data visualization(with map maethods): ")
-    @btime Lar.callExample()
+
 
 
 println("=======================================================================")
