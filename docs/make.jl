@@ -1,9 +1,9 @@
-using Documentation
+using Documenter
 using CuboidGrids
 
 Documenter.makedocs(
     format = Documenter.HTML(
-        prettyurl = get(ENV, "CI", nothing)==true
+        prettyurls = get(ENV, "CI", nothing)== "true"
     ),
     sitename = "CuboidGrids.jl",
     pages = [

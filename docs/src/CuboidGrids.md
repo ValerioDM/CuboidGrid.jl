@@ -1,40 +1,52 @@
-#CuboidGrids
+# CuboidGrids
 
 This file contains all the dependencies, the data structs used in the data process. Has been added some functions (bottom page) from the voxellization example file so the voxel/render files will eventually contains less strings, resulting in a much better looking code.
 
 ##Main interface
-@docs
-CuboidGrids.Point
+```@docs
+CuboidGrids.Points
+```
 
-@docs
+```@docs
 CuboidGrids.Cells
+```
 
-@docs
+```@docs
 CuboidGrids.Chain
+```
 
-@docs
+```@docs
 CuboidGrids.ChainOp
+```
 
-@docs
+```@docs
 CuboidGrids.ChainComplex
+```
 
-@docs
+```@docs
 CuboidGrids.LARmodel
+```
 
-@docs
+```@docs
 CuboidGrids.LAR
+```
 
-@docs
+```@docs
 CuboidGrids.approxVal
+```
 
-@docs
+```@docs
 CuboidGrids.CV2FV
+```
 
-@docs
+```@docs
 CuboidGrids.K
+```
 
-@docs
+```@docs
 CuboidGrids.VEF
+```
 
-@docs
+```@docs
 CuboidGrids.Mats
+```

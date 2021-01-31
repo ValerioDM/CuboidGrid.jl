@@ -171,7 +171,8 @@ module CuboidGrids
 	VEF( Array{Float64,2}, Array{Int64})
 	Given the vertices array and the vertex cells array, return the vertex faces and edges array
 	"""
-	Threads.@spawn function VEF( V::Array{Float64,2}, CV::Array{Int64})
+	#Threads.@spawn 
+	function VEF( V::Array{Float64,2}, CV::Array{Int64})
 		VV = [[v] for v=1:size(V,2)]
 		FV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2FV,CV))))) #verts faces
 		EV = convert(Array{Array{Int64,1},1}, collect(Set(cat(pmap(CV2EV,CV))))) #verts edges
